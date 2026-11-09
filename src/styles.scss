@@ -1,0 +1,150 @@
+@use '@angular/material' as mat;
+
+// ---- Material 3 theme: light by default, dark when body has .dark-theme ----
+html {
+  color-scheme: light;
+  @include mat.theme((
+    color: (primary: mat.$blue-palette, tertiary: mat.$azure-palette),
+    typography: Inter,
+    density: 0,
+  ));
+}
+body.dark-theme { color-scheme: dark; }
+
+// ---- Slate accent colours (used by background, particles, gradients) ----
+:root {
+  --accent-1: #334155;   // slate
+  --accent-2: #93c5fd;   // soft blue
+  --accent-3: #64748b;   // grey
+}
+
+* { box-sizing: border-box; }
+// Keep Material icons from collapsing under the global border-box reset
+.mat-icon, .mat-icon * { box-sizing: content-box; }
+
+html, body { margin: 0; height: 100%; scroll-behavior: smooth; }
+body {
+  font-family: Inter, Roboto, 'Helvetica Neue', sans-serif;
+  background: var(--mat-sys-surface);
+  position: relative;
+  color: var(--mat-sys-on-surface);
+}
+a { color: var(--mat-sys-primary); }
+
+.section {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 88px 24px;
+  scroll-margin-top: 64px;
+}
+.section-title {
+  font-size: 2rem; font-weight: 800; margin: 0 0 8px;
+}
+.section-subtitle { color: var(--mat-sys-on-surface-variant); margin: 0 0 40px; }
+.grid { display: grid; gap: 24px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+
+// ================= Animated background =================
+// Fixed layer behind all content: soft drifting gradient blobs + faint grid.
+.bg-layer {
+  position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none;
+  background:
+    radial-gradient(ellipse at top, color-mix(in srgb, var(--accent-1) 14%, transparent), transparent 60%),
+    var(--mat-sys-surface);
+}
+.blob {
+  position: absolute; border-radius: 50%; filter: blur(90px); opacity: .45;
+  animation: drift 22s ease-in-out infinite alternate;
+}
+.b1 { width: 520px; height: 520px; top: -120px; left: -120px;
+  background: var(--accent-1); }
+.b2 { width: 460px; height: 460px; top: 35%; right: -140px;
+  background: var(--accent-2); animation-duration: 28s; animation-delay: -6s; }
+.b3 { width: 400px; height: 400px; bottom: -140px; left: 30%;
+  background: var(--accent-3); opacity: .35; animation-duration: 32s; animation-delay: -12s; }
+body.dark-theme .blob { opacity: .28; }
+
+// Subtle grid that fades toward the edges
+.grid-overlay {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(color-mix(in srgb, var(--mat-sys-on-surface) 6%, transparent) 1px, transparent 1px),
+    linear-gradient(90deg, color-mix(in srgb, var(--mat-sys-on-surface) 6%, transparent) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 80%);
+}
+
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(80px, 60px) scale(1.15); }
+  100% { transform: translate(-60px, 100px) scale(.95); }
+}
+
+// Respect users who prefer less motion
+@media (prefers-reduced-motion: reduce) { .blob { animation: none; } }
+
+// Glassy cards so the background shows through
+.mat-mdc-card {
+  background: color-mix(in srgb, var(--mat-sys-surface-container-low) 70%, transparent) !important;
+  backdrop-filter: blur(12px);
+}
+
+// Gradient text for the main name heading
+.hero h1 {
+  background: linear-gradient(90deg, var(--accent-3), var(--accent-1), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+}
+
+// ================= Scroll reveal animations =================
+.reveal {
+  opacity: 0;
+  transform: translateY(32px);
+  transition: opacity .7s ease, transform .7s cubic-bezier(.2, .8, .2, 1);
+}
+.reveal.reveal-left { transform: translateX(-40px); }
+.reveal.reveal-zoom { transform: scale(.85); }
+.reveal.visible { opacity: 1; transform: none; }
+
+// Hover lift for every card (after reveal completes)
+.mat-mdc-card.visible { transition: opacity .7s ease, transform .3s ease, box-shadow .3s ease; }
+.mat-mdc-card.visible:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 16px 40px color-mix(in srgb, var(--accent-2) 30%, transparent);
+}
+
+// Reading progress bar at the very top
+.scroll-progress {
+  position: fixed; top: 0; left: 0; height: 3px; width: 100%; z-index: 100;
+  transform-origin: 0 50%; transform: scaleX(0);
+  background: linear-gradient(90deg, var(--accent-3), var(--accent-1), var(--accent-2));
+  animation: progress linear both;
+  animation-timeline: scroll(root);   // CSS scroll-driven animation (no JS)
+}
+@keyframes progress { to { transform: scaleX(1); } }
+
+// ================= Neon glow boost =================
+.blob { opacity: .3; filter: blur(100px); }
+body.dark-theme .blob { opacity: .45; }
+
+// Soft glow on name (pulse only in dark mode)
+body.dark-theme .hero h1 { animation: neon-pulse 3.5s ease-in-out infinite alternate; }
+.hero h1 {
+  filter: drop-shadow(0 2px 8px color-mix(in srgb, var(--accent-1) 25%, transparent));
+}
+@keyframes neon-pulse {
+  from { filter: drop-shadow(0 0 6px color-mix(in srgb, var(--accent-1) 55%, transparent))
+                 drop-shadow(0 0 18px color-mix(in srgb, var(--accent-2) 30%, transparent)); }
+  to   { filter: drop-shadow(0 0 14px color-mix(in srgb, var(--accent-1) 85%, transparent))
+                 drop-shadow(0 0 40px color-mix(in srgb, var(--accent-2) 60%, transparent)); }
+}
+
+// Glowing progress bar
+.scroll-progress { height: 4px; }
+
+// Neon card hover
+.mat-mdc-card.visible:hover {
+  box-shadow: 0 0 0 1px var(--accent-2),
+              0 0 24px color-mix(in srgb, var(--accent-1) 45%, transparent),
+              0 0 48px color-mix(in srgb, var(--accent-2) 30%, transparent);
+}
+
+@media (prefers-reduced-motion: reduce) { .hero h1 { animation: none; } }
