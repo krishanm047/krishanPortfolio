@@ -16,3 +16,6 @@ Open http://localhost:4200
 
 ## Build & deploy
 `npm run build` produces `dist/krishan-portfolio/browser/`. Host it on any static host (GitHub Pages, Netlify, Azure Static Web Apps, S3).
+
+## Images
+Put images (photo, logo, favicon) in `src/media/`. They are served at `/media/<file>`.

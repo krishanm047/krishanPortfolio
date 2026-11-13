@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, afterNextRender, inject } from '@angular/core';
 import { PortfolioService } from './services/portfolio.service';
 import { Header } from './components/header/header';
 import { Hero } from './components/hero/hero';
@@ -15,28 +15,41 @@ import { setupScrollReveal } from './directives/scroll-reveal';
   selector: 'app-root',
   imports: [Particles, Header, Hero, About, Skills, ExperienceSection, Projects, Contact, Footer],
   template: `
-    <!-- Decorative animated background (pure CSS, see styles.scss) -->
+    <!-- Decorative background layers -->
     <div class="bg-layer" aria-hidden="true">
       <span class="blob b1"></span><span class="blob b2"></span><span class="blob b3"></span>
       <span class="grid-overlay"></span>
     </div>
     <app-particles />
     <div class="scroll-progress" aria-hidden="true"></div>
-    <app-header />
+
     @let data = portfolio();
-      <main>
-        <app-hero [profile]="data.profile" />
-        <app-about [profile]="data.profile" [education]="data.education" />
-        <app-skills [skills]="data.skills" />
-        <app-experience [items]="data.experience" />
-        <app-projects [projects]="data.projects" />
-        <app-contact [profile]="data.profile" />
-      </main>
-      <app-footer [profile]="data.profile" />
+    <app-header />
+    <main>
+      <app-hero [data]="data" />
+      <app-about [profile]="data.profile" [education]="data.education" />
+      <app-skills [skills]="data.skills" />
+      <app-experience [items]="data.experience" />
+      <app-projects [projects]="data.projects" />
+      <app-contact [profile]="data.profile" />
+    </main>
+    <app-footer [profile]="data.profile" />
   `,
 })
 export class App {
   readonly portfolio = inject(PortfolioService).portfolio;
 
-  constructor() { setupScrollReveal(); }
+  constructor() {
+    setupScrollReveal();
+    // Feed mouse position to .glass cards for the spotlight effect
+    afterNextRender(() => {
+      document.addEventListener('pointermove', e => {
+        const el = (e.target as HTMLElement | null)?.closest<HTMLElement>('.glass');
+        if (!el) return;
+        const r = el.getBoundingClientRect();
+        el.style.setProperty('--mx', `${e.clientX - r.left}px`);
+        el.style.setProperty('--my', `${e.clientY - r.top}px`);
+      }, { passive: true });
+    });
+  }
 }

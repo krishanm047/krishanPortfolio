@@ -13,7 +13,7 @@ export const PORTFOLIO: Portfolio = {
     "github": "",
     "resumeUrl": "",
     "yearsOfExperience": 5,
-    "photoUrl": "/profile.jpg?v=3"
+    "photoUrl": "/media/profile.jpg?v=4"
   },
   "skills": [
     {
