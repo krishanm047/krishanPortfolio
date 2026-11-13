@@ -39,12 +39,13 @@ import { Portfolio } from '../../models/portfolio';
           } @else {
             <span class="initials">{{ initials() }}</span>
           }
+          <!-- Floating tech chips around the photo -->
+          <span class="float f1 glass"><mat-icon>coffee</mat-icon> Java</span>
+          <span class="float f2 glass"><mat-icon>eco</mat-icon> Spring</span>
+          <span class="float f3 glass"><mat-icon>fact_check</mat-icon> Cypress</span>
+          <span class="float f4 glass"><mat-icon>change_history</mat-icon> Angular</span>
+          <span class="float f5 glass"><mat-icon>smart_toy</mat-icon> AI &amp; Copilot</span>
         </div>
-        <!-- Floating tech chips around the photo -->
-        <span class="float f1 glass"><mat-icon>coffee</mat-icon> Java 21</span>
-        <span class="float f2 glass"><mat-icon>change_history</mat-icon> Angular</span>
-        <span class="float f3 glass"><mat-icon>eco</mat-icon> Spring</span>
-        <span class="float f4 glass"><mat-icon>smart_toy</mat-icon> AI &amp; Copilot</span>
       </div>
 
       <a class="scroll-hint" href="#about" aria-label="Scroll down"><span></span></a>
@@ -73,20 +74,26 @@ import { Portfolio } from '../../models/portfolio';
     .num { font-size: 2.2rem; font-weight: 800; letter-spacing: -.03em; }
     .lbl { color: var(--muted); font-size: .85rem; }
 
-    .right { position: relative; display: grid; place-items: center; aspect-ratio: 1; }
-    .photo { position: relative; width: min(380px, 80vw); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; }
+    .right { position: relative; display: grid; justify-items: center; align-self: start;
+      min-height: 420px; padding-top: 56px; }  /* 56px ≈ badge height + gap, lines up with 'Hi, I'm' */
+    .photo { position: relative; width: clamp(180px, 18vw, 250px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; }
     .ring { position: absolute; inset: -6px; border-radius: 50%;
       background: conic-gradient(from 0deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
       animation: spin 8s linear infinite; filter: drop-shadow(0 0 30px color-mix(in srgb, var(--accent-1) 60%, transparent)); }
     .ring::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--bg); }
     @keyframes spin { to { transform: rotate(360deg); } }
     img, .initials { position: relative; width: calc(100% - 16px); height: calc(100% - 16px); border-radius: 50%; object-fit: cover; }
-    .initials { display: grid; place-items: center; font-size: 6rem; font-weight: 900; background: var(--grad); }
+    .initials { display: grid; place-items: center; font-size: 3.8rem; font-weight: 900; background: var(--grad); }
     .float { position: absolute; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px !important;
       border-radius: 14px !important; font-size: .88rem; font-weight: 600; white-space: nowrap; animation: bob 6s ease-in-out infinite; }
     .float mat-icon { font-size: 18px; width: 18px; height: 18px; color: var(--accent-2); }
-    .f1 { top: 6%; left: -4%; } .f2 { top: 14%; right: -6%; animation-delay: -1.5s; }
-    .f3 { bottom: 14%; left: -8%; animation-delay: -3s; } .f4 { bottom: 4%; right: 0; animation-delay: -4.5s; }
+    .float { z-index: 2; }
+    /* Five chips spaced around the photo circle */
+    .f1 { top: -6%; left: -30%; }
+    .f2 { top: 40%; left: -46%; animation-delay: -1.2s; }
+    .f3 { top: 4%; right: -40%; animation-delay: -2.4s; }
+    .f4 { bottom: -14%; left: -26%; animation-delay: -3.6s; }
+    .f5 { bottom: -8%; right: -42%; animation-delay: -4.8s; }
     @keyframes bob { 50% { transform: translateY(-14px); } }
 
     .scroll-hint { position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%); width: 26px; height: 42px;
@@ -97,7 +104,7 @@ import { Portfolio } from '../../models/portfolio';
 
     @media (max-width: 900px) {
       .hero { grid-template-columns: 1fr; text-align: center; padding-top: 120px; }
-      .right { order: -1; max-width: 340px; margin: 0 auto; }
+      .right { order: -1; max-width: 220px; margin: 0 auto; min-height: 0; padding-top: 0; align-self: center; }
       .actions, .stats { justify-content: center; } .tagline { margin: 0 auto; }
       .float { display: none; } .scroll-hint { display: none; }
     }
