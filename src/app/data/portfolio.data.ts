@@ -11,7 +11,7 @@ export const PORTFOLIO: Portfolio = {
     "email": "krishanm047@gmail.com",
     "linkedin": "https://www.linkedin.com/in/krishanm047",
     "github": "",
-    "resumeUrl": "",
+    "resumeUrl": "/media/Krishan-Murari-Resume.docx",
     "yearsOfExperience": 5,
     "photoUrl": "/media/profile.jpg?v=4"
   },

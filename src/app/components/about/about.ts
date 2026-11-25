@@ -24,6 +24,10 @@ import { Education, Profile } from '../../models/portfolio';
           <div class="fact"><mat-icon>work_history</mat-icon><div><small>Experience</small>{{ profile().yearsOfExperience }}+ years at DXC Technology</div></div>
           <div class="fact"><mat-icon>language</mat-icon><div><small>LinkedIn</small>
             <a [href]="profile().linkedin" target="_blank">linkedin.com/in/krishanm047</a></div></div>
+          @if (profile().resumeUrl) {
+            <div class="fact"><mat-icon>description</mat-icon><div><small>Resume</small>
+              <a [href]="profile().resumeUrl" download>Download my resume</a></div></div>
+          }
         </div>
         <div class="glass card edu" data-reveal>
           <h3><mat-icon>school</mat-icon> Education</h3>
