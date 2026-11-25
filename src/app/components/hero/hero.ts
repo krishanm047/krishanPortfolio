@@ -79,10 +79,10 @@ import { Portfolio } from '../../models/portfolio';
     .photo { position: relative; width: clamp(180px, 18vw, 250px); aspect-ratio: 1; border-radius: 50%; display: grid; place-items: center; }
     .ring { position: absolute; inset: -6px; border-radius: 50%;
       background: conic-gradient(from 0deg, var(--accent-1), var(--accent-2), var(--accent-3), var(--accent-1));
-      animation: spin 8s linear infinite; filter: drop-shadow(0 0 30px color-mix(in srgb, var(--accent-1) 60%, transparent)); }
+      filter: drop-shadow(0 0 30px color-mix(in srgb, var(--accent-1) 60%, transparent)); }
     .ring::after { content: ''; position: absolute; inset: 6px; border-radius: 50%; background: var(--bg); }
     @keyframes spin { to { transform: rotate(360deg); } }
-    img, .initials { position: relative; width: calc(100% - 16px); height: calc(100% - 16px); border-radius: 50%; object-fit: cover; }
+    img, .initials { position: relative; width: calc(100% - 5px); height: calc(100% - 5px); border-radius: 50%; object-fit: cover; }
     .initials { display: grid; place-items: center; font-size: 3.8rem; font-weight: 900; background: var(--grad); }
     .float { position: absolute; display: inline-flex; align-items: center; gap: 8px; padding: 10px 16px !important;
       border-radius: 14px !important; font-size: .88rem; font-weight: 600; white-space: nowrap; animation: bob 6s ease-in-out infinite; }
