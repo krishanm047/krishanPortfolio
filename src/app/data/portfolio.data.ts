@@ -254,11 +254,6 @@ export const PORTFOLIO: Portfolio = {
       "institution": "S.D. College, Pariya",
       "degree": "Higher Secondary, Science",
       "period": "2014 – 2016"
-    },
-    {
-      "institution": "Nazareth Academy, Gaya",
-      "degree": "High School",
-      "period": "2003 – 2013"
     }
   ]
 };
